@@ -57,10 +57,7 @@ class PaymentTransaction(models.Model):
         _logger.info("Payment Method Name: %s", self.payment_method_id.name)
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
-        invoice = self.env['account.move'].search([
-            ('name', '=', self.reference),
-            ('move_type', '=', 'out_invoice')
-        ], limit=1)
+        invoice = self.invoice_ids[:1]
 
         if invoice and invoice.partner_id:
             raw_mobile = self.plutu_mobile_number or invoice.partner_id.phone or invoice.partner_id.mobile
