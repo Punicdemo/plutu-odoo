@@ -5,7 +5,7 @@
     'author': "Mohamed Elkmeshi",
     'website': "https://plutu.ly/?source=odoo-module",
     'category': 'Accounting/Payment Providers',
-       'version': '20.0.1.4',
+    'version': '20.0.1.4',
     'depends': ['payment', 'website'],
     'data': [
         'views/payment_plutu_templates.xml',
