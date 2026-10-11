@@ -23,7 +23,7 @@ class PaylinkController(http.Controller):
         plutu_secret_key = plutu_provider.plutu_secret_key
         self._verify_plutu_callback_hash(data, plutu_secret_key)
 
-                tx_sudo = request.env['payment.transaction'].sudo()._search_by_reference('plutu', data)
+        tx_sudo = request.env['payment.transaction'].sudo()._search_by_reference('plutu', data)
         if tx_sudo:
             tx_sudo._record(data)
         return request.redirect('/payment/status')
@@ -39,7 +39,9 @@ class PaylinkController(http.Controller):
         plutu_secret_key = plutu_provider.plutu_secret_key
         self._verify_plutu_callback_hash(data, plutu_secret_key, 'callback')
 
-        request.env['payment.transaction'].sudo()._process('plutu', data)
+        tx_sudo = request.env['payment.transaction'].sudo()._search_by_reference('plutu', data)
+        if tx_sudo:
+            tx_sudo._record(data)
         return request.make_json_response('')
 
     @staticmethod
