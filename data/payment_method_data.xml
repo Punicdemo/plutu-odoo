@@ -4,10 +4,14 @@
         <field name="name">Local Bank Cards</field>
         <field name="code">localbankcards</field>
         <field name="sequence">10</field>
+        <field name="provider_id" ref="payment_plutu.payment_payment_provider_plutu"/>
+        <field name="image" type="bytes" file="payment_plutu/static/img/visa.png"/>
     </record>
     <record id="payment_method_tlync" model="payment.method">
         <field name="name">T-Lync</field>
         <field name="code">tlync</field>
         <field name="sequence">20</field>
+        <field name="provider_id" ref="payment_plutu.payment_payment_provider_plutu"/>
+        <field name="image" type="bytes" file="payment_plutu/static/img/tlync.png"/>
     </record>
 </odoo>
