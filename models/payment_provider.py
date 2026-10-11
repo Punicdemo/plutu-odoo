@@ -15,12 +15,6 @@ class PaymentProvider(models.Model):
     _inherit = 'payment.provider'
 
     name = fields.Char(string="Name", required=True, translate=True, readonly=True)
-    state = fields.Selection(
-        string="Status",
-        help="In test mode, a fake payment is processed through a test payment interface.\n"
-             "This mode is advised when setting up the provider.",
-        selection=[('test', "Test Environment"), ('enabled', "Production Environment"), ('disabled', "Disabled")],
-        default='disabled', required=True, copy=False)
 
     code = fields.Selection(
         selection_add=[('plutu', "Plutu")], ondelete={'plutu': 'set default'}
