@@ -1,12 +1,7 @@
 API_VERSION = '2024-01-01' 
 DEFAULT_PAYMENT_METHODS_CODES = [
-    # Brand payment methods.
-    'card',
-    'mada',
-    'visa',
-    'mastercard',
-    'amex',
-    'mada',
+    'localbankcards',
+    'tlync',
 ]
 STATUS_MAPPING = {
     'draft': ('requires_confirmation', 'requires_action'),
@@ -23,5 +18,3 @@ SUPPORTED_CURRENCIES = {
 PAYMENT_METHODS_MAPPING = {
     'bank_transfer': 'banktransfer',
 }
-
-
