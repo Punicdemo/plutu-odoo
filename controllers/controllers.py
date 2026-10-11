@@ -23,7 +23,9 @@ class PaylinkController(http.Controller):
         plutu_secret_key = plutu_provider.plutu_secret_key
         self._verify_plutu_callback_hash(data, plutu_secret_key)
 
-        request.env['payment.transaction'].sudo()._process('plutu', data)
+                tx_sudo = request.env['payment.transaction'].sudo()._search_by_reference('plutu', data)
+        if tx_sudo:
+            tx_sudo._record(data)
         return request.redirect('/payment/status')
 
     @http.route(_webhook_url, type='http', methods=['POST'], auth='public', csrf=False)
