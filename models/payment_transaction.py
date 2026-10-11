@@ -60,9 +60,9 @@ class PaymentTransaction(models.Model):
         invoice = self.invoice_ids[:1]
 
         if invoice and invoice.partner_id:
-            raw_mobile = self.plutu_mobile_number or invoice.partner_id.phone or invoice.partner_id.mobile
+            raw_mobile = self.plutu_mobile_number or invoice.partner_id.phone
         else:
-            raw_mobile = self.plutu_mobile_number or self.partner_id.phone or self.partner_id.mobile
+            raw_mobile = self.plutu_mobile_number or self.partner_id.phone
 
         if not raw_mobile:
             raise ValidationError(_("A valid mobile number is required to process this payment."))
