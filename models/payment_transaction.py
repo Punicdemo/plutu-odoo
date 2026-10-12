@@ -55,7 +55,7 @@ class PaymentTransaction(models.Model):
             return res
 
         _logger.info("Payment Method Name: %s", self.payment_method_id.name)
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        base_url = self.provider_id.get_base_url()
 
         invoice = self.invoice_ids[:1]
 
