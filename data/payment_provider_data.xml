@@ -4,6 +4,7 @@
     <record id="payment_payment_provider_plutu" model="payment.provider">
         <field name="name">Plutu</field>
         <field name="code">plutu</field>
+        <field name="module_id" ref="base.module_payment_plutu"/>
         <field name="is_published">False</field>
         <field name="redirect_form_view_id" ref="redirect_form" />
         <field name="allow_tokenization">True</field>
