@@ -98,6 +98,11 @@ class PaymentTransaction(models.Model):
         if self.provider_code != 'plutu':
             return super()._extract_amount_data(payment_data)
 
+        # T-Lync's customer return carries no amount; the server callback does. Skip the check
+        # for messages without an amount (returning None tells Odoo to skip it).
+        if payment_data.get('amount') in (None, ''):
+            return None
+
         return {
             'amount': float(payment_data.get('amount', 0.0)),
             'currency_code': self.currency_id.name,
@@ -108,14 +113,13 @@ class PaymentTransaction(models.Model):
         if self.provider_code != 'plutu':
             return super()._apply_updates(payment_data)
 
-        if payment_data.get('gateway') in ('localbankcards', 'tlync'):
-            if payment_data.get('approved'):
-                self._set_done()
-                _logger.info("Plutu: Payment approved for transaction %s.", self.reference)
-            elif payment_data.get('canceled'):
-                self._set_canceled()
-                _logger.info("Plutu: Payment canceled for transaction %s.", self.reference)
-            else:
-                self._set_pending()
+        # T-Lync's customer return has no "gateway" field, so rely on approved/canceled.
+        # Plutu sends approved as 1/0 (number or text): only exactly 1 means paid.
+        if str(payment_data.get('approved', '')).strip().lower() in ('1', 'true'):
+            self._set_done()
+            _logger.info("Plutu: Payment approved for transaction %s.", self.reference)
+        elif str(payment_data.get('canceled', '')).strip().lower() in ('1', 'true'):
+            self._set_canceled()
+            _logger.info("Plutu: Payment canceled for transaction %s.", self.reference)
         else:
             self._set_pending()
